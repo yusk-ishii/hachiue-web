@@ -2,13 +2,47 @@
   "name": "hachiue-web",
   "type": "module",
   "version": "0.0.1",
+  "browserslist": [
+    "defaults",
+    "not IE 11",
+    "last 2 versions",
+    "Safari >= 12"
+  ],
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "lint:js": "eslint . --fix",
+    "lint:css": "stylelint \"**/*.{css,scss,astro}\" --ignore-path .gitignore",
+    "lint:format": "prettier . --check",
+    "lint": "npm-run-all -s -c lint:*",
+    "fix:js": "npm run lint:js -- --fix",
+    "fix:css": "npm run lint:css -- --fix",
+    "fix:format": "prettier . --write",
+    "fix": "npm-run-all -p fix:*"
   },
   "dependencies": {
-    "astro": "^5.14.1"
+    "astro": "^5.14.1",
+    "astro-compress": "^2.3.8"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.37.0",
+    "@typescript-eslint/parser": "^8.46.0",
+    "astro-eslint-parser": "^1.2.2",
+    "destyle.css": "^4.0.1",
+    "eslint": "^9.37.0",
+    "eslint-plugin-astro": "^1.3.1",
+    "npm-run-all": "^4.1.5",
+    "postcss-html": "^1.8.0",
+    "postcss-preset-env": "^10.4.0",
+    "prettier": "^3.6.2",
+    "prettier-plugin-astro": "^0.14.1",
+    "sass": "^1.93.2",
+    "stylelint": "^16.25.0",
+    "stylelint-config-html": "^1.1.0",
+    "stylelint-config-recess-order": "^7.3.0",
+    "stylelint-config-standard-scss": "^16.0.0",
+    "typescript-eslint": "^8.46.0"
   }
 }
