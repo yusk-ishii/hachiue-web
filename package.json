@@ -23,8 +23,11 @@
     "fix": "npm-run-all -p fix:*"
   },
   "dependencies": {
+    "@fontsource-variable/montserrat": "^5.2.8",
+    "@fontsource/zen-kaku-gothic-new": "^5.2.7",
     "astro": "^5.14.1",
-    "astro-compress": "^2.3.8"
+    "astro-compress": "^2.3.8",
+    "yakuhanjp": "^4.1.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.37.0",

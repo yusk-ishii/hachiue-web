@@ -1,7 +1,15 @@
 ---
-
+import { Image } from 'astro:assets';
+import logo from '@assets/logo.svg';
+import IconInstagram from '@components/common/IconInstagram.astro';
+import IconFacebook from '@components/common/IconFacebook.astro';
 ---
 
-<div></div>
+<footer>
+  <Image src={logo} alt="Hachiue Logo" width="120" height="40" />
+  <IconInstagram />
+  <IconFacebook />
+  <p>© 2025 Hachiue</p>
+</footer>
 
 <style lang="scss"></style>
