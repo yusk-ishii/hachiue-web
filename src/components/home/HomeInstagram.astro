@@ -1,7 +1,145 @@
 ---
-
+import { Image } from 'astro:assets';
+import SectionTitle from '@components/common/SectionTitle.astro';
+import Photo1 from '@assets/photo_1.jpg';
+import Photo2 from '@assets/photo_2.jpg';
+import Photo3 from '@assets/photo_3.jpg';
+import Photo4 from '@assets/photo_4.jpg';
+import Photo5 from '@assets/photo_5.jpg';
+const photos = [
+  {
+    src: Photo1,
+    alt: 'Instagram Photo 1',
+  },
+  {
+    src: Photo2,
+    alt: 'Instagram Photo 2',
+  },
+  {
+    src: Photo3,
+    alt: 'Instagram Photo 3',
+  },
+  {
+    src: Photo4,
+    alt: 'Instagram Photo 4',
+  },
+  {
+    src: Photo5,
+    alt: 'Instagram Photo 5',
+  },
+];
 ---
 
-<div></div>
+<section id="instagram">
+  <SectionTitle title="Instagram" />
+  <ul class="list">
+    {
+      photos.map((photo) => (
+        <li class="item">
+          <a href="https://www.instagram.com/" target="_blank">
+            <Image src={photo.src} alt={photo.alt} />
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</section>
 
-<style lang="scss"></style>
+<style lang="scss">
+  #instagram {
+    @include mq-mobile {
+      padding: 80px calc(20 / 390 * 100vw);
+    }
+
+    @include mq-desktop {
+      padding: 128px 40px;
+    }
+  }
+
+  .list {
+    display: grid;
+    gap: 0;
+
+    @include mq-mobile {
+      grid-template:
+        'picture1 picture1' auto
+        'picture2 picture3' auto
+        'picture4 picture5' auto /
+        1fr 1fr;
+      margin-top: 32px;
+    }
+
+    @include mq-desktop {
+      grid-template:
+        'picture1 picture1 picture2 picture3' 1fr
+        'picture1 picture1 picture4 picture5' 1fr /
+        1fr 1fr 1fr 1fr;
+      margin-top: 64px;
+    }
+  }
+
+  .item {
+    position: relative;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    &:nth-child(1) {
+      grid-area: picture1;
+    }
+
+    &:nth-child(2) {
+      grid-area: picture2;
+    }
+
+    &:nth-child(3) {
+      grid-area: picture3;
+    }
+
+    &:nth-child(4) {
+      grid-area: picture4;
+    }
+
+    &:nth-child(5) {
+      grid-area: picture5;
+    }
+
+    @include mq-desktop {
+      &::before {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        content: '';
+        background-color: rgb(0 0 0 / 50%);
+        opacity: 0;
+      }
+
+      &::after {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 15%;
+        height: 15%;
+        pointer-events: none;
+        content: '';
+        background: url('../../assets/icon_instagram.svg') no-repeat center / contain;
+        opacity: 0;
+        transform: translate(-50%, -50%);
+      }
+
+      &:hover {
+        &::before,
+        &::after {
+          opacity: 1;
+          transition: opacity 0.3s ease-out;
+        }
+      }
+    }
+  }
+</style>

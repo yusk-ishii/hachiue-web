@@ -6,10 +6,68 @@ import IconFacebook from '@components/common/IconFacebook.astro';
 ---
 
 <footer>
-  <Image src={logo} alt="Hachiue Logo" width="120" height="40" />
-  <IconInstagram />
-  <IconFacebook />
-  <p>© 2025 Hachiue</p>
+  <p class="logo">
+    <Image src={logo} alt="Hachiue Logo" width="120" height="40" />
+  </p>
+  <div class="social-icons">
+    <a href="https://www.instagram.com/" target="_blank">
+      <IconInstagram />
+    </a>
+    <a href="https://www.facebook.com/" target="_blank">
+      <IconFacebook />
+    </a>
+  </div>
+  <p class="copyright">© 2025 Hachiue</p>
 </footer>
 
-<style lang="scss"></style>
+<style lang="scss">
+  footer {
+    @include mq-mobile {
+      padding: 40px calc(20 / 390 * 100vw) 48px;
+    }
+
+    @include mq-desktop {
+      padding: 40px 40px 48px;
+    }
+  }
+
+  .logo {
+    img {
+      display: block;
+      margin: 0 auto;
+
+      @include mq-mobile {
+        width: 100%;
+      }
+
+      @include mq-desktop {
+        width: 350px;
+      }
+    }
+  }
+
+  .social-icons {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    margin-top: 64px;
+
+    a {
+      display: block;
+
+      @include mq-mobile {
+        width: 32px;
+      }
+
+      @include mq-desktop {
+        width: 40px;
+      }
+    }
+  }
+
+  .copyright {
+    margin-top: 64px;
+    font-size: 12px;
+    text-align: center;
+  }
+</style>

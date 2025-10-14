@@ -1,7 +1,137 @@
 ---
+import { Image } from 'astro:assets';
+import SectionTitle from '@components/common/SectionTitle.astro';
+import Service1 from '@assets/service_1.jpg';
+import Service2 from '@assets/service_2.jpg';
+import Service3 from '@assets/service_3.jpg';
 
+const services = [
+  {
+    title: 'Green Styling',
+    subtitle: '植物選びのご相談',
+    description:
+      '生活環境やライフスタイルを丁寧にヒアリングし、無理なく、長く育てていただける一鉢をご提案します。初めての方も安心してお任せください。',
+    image: Service1,
+  },
+  {
+    title: 'Gift',
+    subtitle: '大切な人へのギフト',
+    description:
+      '大切な人への想いを込めたギフトも承っております。新築祝いや開店祝いなど、シーンや用途に合わせてラッピングや全国配送にも対応しています。',
+    image: Service2,
+  },
+  {
+    title: 'After Support',
+    subtitle: 'アフターサポート',
+    description:
+      '永久無料のアフターサポート。育て方に迷ったら、LINEで植物の写真をお送りください。プロのスタッフが具体的な解決策をお届けします。',
+    image: Service3,
+  },
+];
 ---
 
-<div></div>
+<section id="service">
+  <SectionTitle title="Service" />
+  <ul class="list">
+    {
+      services.map((service) => (
+        <li class="item">
+          <figure>
+            <Image src={service.image} alt={service.title} />
+          </figure>
+          <div class="content">
+            <h3 class="title">
+              <span class="main">{service.title}</span>
+              <span class="sub">{service.subtitle}</span>
+            </h3>
+            <p class="description">{service.description}</p>
+          </div>
+        </li>
+      ))
+    }
+  </ul>
+</section>
 
-<style lang="scss"></style>
+<style lang="scss">
+  #service {
+    // margin: 0 auto;
+
+    @include mq-mobile {
+    }
+
+    @include mq-desktop {
+      padding: 160px 0;
+    }
+  }
+
+  .list {
+    display: flex;
+
+    @include mq-mobile {
+      flex-direction: column;
+      gap: 40px;
+      margin-top: 64px;
+    }
+
+    @include mq('tablet', 'desktop') {
+      gap: 32px;
+      margin-top: 64px;
+    }
+
+    @include mq('desktop') {
+      gap: 44px;
+      margin-top: 128px;
+    }
+
+    @include mq-desktop {
+      padding: 0 40px;
+    }
+  }
+
+  .item {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+  }
+
+  .content {
+    flex: 1;
+    margin-top: 24px;
+
+    @include mq-mobile {
+      padding: 0 calc(20 / 390 * 100vw);
+    }
+  }
+
+  .title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .main {
+      flex: 1;
+      font-size: 26px;
+      line-height: 1.2;
+      color: var(--color-text-accent);
+    }
+
+    .sub {
+      font-size: 14px;
+      line-height: 1;
+      color: var(--color-text);
+      opacity: 0.6;
+    }
+
+    @include mq('tablet', 'desktop') {
+      flex-direction: column;
+      gap: 8px;
+      align-items: flex-start;
+    }
+  }
+
+  .description {
+    margin-top: 16px;
+    font-size: 16px;
+    text-align: justify;
+  }
+</style>

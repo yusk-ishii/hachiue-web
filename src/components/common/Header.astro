@@ -1,9 +1,195 @@
 ---
-import Menu from '@components/common/Menu.astro';
+import IconInstagram from '@components/common/IconInstagram.astro';
+import IconFacebook from '@components/common/IconFacebook.astro';
+const base = import.meta.env.BASE_URL;
+const links = [
+  { key: 'home', label: 'Home', href: `${base}/` },
+  { key: 'about', label: 'About', href: `${base}/#about` },
+  { key: 'service', label: 'Service', href: `${base}/#service` },
+  { key: 'shop', label: 'Shop Info', href: `${base}/#shop` },
+  { key: 'contact', label: 'Contact', href: `${base}/contact` },
+];
 ---
 
 <header>
-  <Menu />
+  <button class="nav-toggle">Menu</button>
+
+  <!-- クリックで閉じる半透明オーバーレイ -->
+  <!-- <div class="nav-overlay" hidden></div> -->
+
+  <nav class="nav">
+    <ul class="nav-list">
+      {
+        links.map((l) => (
+          <li class={`nav-item ${l.key}`}>
+            <a class="nav-link" href={l.href}>
+              {l.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <div class="social-icons">
+      <a href="https://www.instagram.com/" target="_blank">
+        <IconInstagram color="currentcolor" />
+      </a>
+      <a href="https://www.facebook.com/" target="_blank">
+        <IconFacebook color="currentcolor" />
+      </a>
+    </div>
+  </nav>
 </header>
 
-<style lang="scss"></style>
+<style lang="scss">
+  header {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+    margin: 0 auto;
+    margin: auto;
+
+    @include mq-mobile {
+      height: 60px;
+      padding: 0 20px;
+      padding: 0 calc(20 / 390 * 100vw);
+    }
+
+    @include mq-desktop {
+      height: 64px;
+      padding: 0 32px;
+      mix-blend-mode: exclusion;
+    }
+
+    @include mq(1801) {
+      max-width: var(--content-width);
+      overflow: hidden;
+    }
+  }
+
+  .nav-toggle {
+    @include mq-mobile {
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      width: 74px;
+      height: 26px;
+      font-size: 14px;
+      line-height: 1;
+      color: var(--color-text-light);
+      background-color: var(--color-main);
+      border-radius: 999px;
+
+      .menu-open & {
+        color: var(--color-text);
+        background-color: var(--color-bg);
+      }
+    }
+
+    @include mq-desktop {
+      display: none;
+    }
+  }
+
+  .nav {
+    color: var(--color-text-light);
+
+    @include mq-mobile {
+      position: fixed;
+      top: 0;
+      right: 0;
+      display: none;
+      height: 100%;
+      padding: 80px calc(20 / 390 * 100vw) 24px;
+      background-color: var(--color-main);
+    }
+
+    @include mq-desktop {
+      display: flex;
+    }
+  }
+
+  .nav-list {
+    @include mq-mobile {
+      width: 240px;
+      text-align: right;
+    }
+
+    @include mq-desktop {
+      display: flex;
+    }
+  }
+
+  .nav-item {
+    @include mq-mobile {
+      & + & {
+        margin-top: 16px;
+      }
+    }
+
+    @include mq-desktop {
+      & + & {
+        margin-left: 8px;
+
+        &.contact {
+          margin-left: 32px;
+        }
+      }
+    }
+  }
+
+  .nav-link {
+    @include mq-mobile {
+      display: inline-block;
+      font-size: 18px;
+    }
+
+    @include mq-desktop {
+      display: grid;
+      place-items: center;
+      height: 30px;
+      padding: 0 24px;
+      font-size: 15px;
+      line-height: 1;
+      text-wrap: nowrap;
+      border: 1px solid var(--color-border);
+      border-radius: 999px;
+    }
+  }
+
+  .social-icons {
+    display: flex;
+
+    @include mq-mobile {
+      gap: 16px;
+      justify-content: flex-end;
+      margin-top: 40px;
+    }
+
+    @include mq-desktop {
+      gap: 16px;
+      margin-left: 40px;
+    }
+
+    a {
+      display: block;
+
+      @include mq-mobile {
+        width: 24px;
+      }
+
+      @include mq-desktop {
+        width: 30px;
+      }
+    }
+  }
+</style>
+
+<script>
+  console.log('Header script loaded');
+</script>

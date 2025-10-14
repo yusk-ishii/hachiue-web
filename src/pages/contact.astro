@@ -1,10 +1,53 @@
 ---
 import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import PageTitle from '@components/common/PageTitle.astro';
+import ContactForm from '@components/contact/ContactForm.astro';
 ---
 
 <Layout>
-  <!-- <Welcome /> -->
+  <div class="contact">
+    <PageTitle title="Contact" />
+    <div class="container">
+      <p class="description">
+        育て方の小さな疑問から、商品選びの相談まで、グリーンに関するご質問・ご相談を承ります。サイズ感の相談や、お部屋に合う品種のご提案など、なんでもお聞かせください。あなたのグリーンライフをサポートします。
+      </p>
+      <ContactForm />
+    </div>
+  </div>
 </Layout>
+
+<style lang="scss">
+  .contact {
+    @include mq-mobile {
+      padding: 100px calc(20 / 390 * 100vw) 48px;
+    }
+
+    @include mq-desktop {
+      max-width: 800px;
+      padding: 104px 40px 128px;
+      margin: 0 auto;
+    }
+  }
+
+  .container {
+    @include mq-mobile {
+      margin-top: 16px;
+    }
+
+    @include mq-desktop {
+      margin-top: 32px;
+    }
+  }
+
+  .description {
+    line-height: 1.8;
+
+    @include mq-mobile {
+      font-size: 14px;
+    }
+
+    @include mq-desktop {
+      font-size: 18px;
+    }
+  }
+</style>

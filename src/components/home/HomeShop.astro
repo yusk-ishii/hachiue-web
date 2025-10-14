@@ -1,7 +1,226 @@
 ---
-
+import { Image } from 'astro:assets';
+const base = import.meta.env.BASE_URL;
 ---
 
-<div></div>
+<section id="shop">
+  <div class="inner">
+    <div class="shop-info">
+      <h2 class="title">Shop Info</h2>
+      <div class="content">
+        <ul class="info">
+          <li class="address">〒231-0861 神奈川県横浜市中区元町0丁目000-0</li>
+          <li class="tel">TEL 000-000-0000</li>
+          <li class="hours">11:00〜20:00【土日祝】10:00〜19:00</li>
+          <li class="holiday">定休日 水曜日</li>
+        </ul>
+      </div>
+      <div class="map">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6561.23783928732!2d135.1873482!3d34.6895662!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x600085f29a1e2617%3A0xff9ac764af6cfa5d!2z5YWD55S66aeF!5e0!3m2!1sja!2sjp!4v1760279387109!5m2!1sja!2sjp"
+          width="600"
+          height="450"
+          style="border:0;"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+      <a href="" target="_blank" class="link-button external">Googleマップで見る</a>
+    </div>
+    <div class="contact">
+      <h2 class="title">Contact</h2>
+      <div class="content">
+        <p class="description">
+          育て方の小さな疑問から、商品選びの相談まで、グリーンに関するご質問・ご相談を承ります。サイズ感の相談や、お部屋に合う品種のご提案など、なんでもお聞かせください。あなたのグリーンライフをサポートします。
+        </p>
+      </div>
+      <a href={`${base}/contact`} class="link-button"> お問い合わせはこちら</a>
+    </div>
+  </div>
+</section>
 
-<style lang="scss"></style>
+<style lang="scss">
+  .inner {
+    color: var(--color-text-light);
+    background-color: var(--color-main);
+    border-radius: 8px;
+
+    @include mq-mobile {
+      padding: 0 calc(20 / 390 * 100vw) 40px;
+    }
+
+    @include mq-desktop {
+      width: 50%;
+      padding: 0 64px 40px;
+      margin-left: auto;
+    }
+  }
+
+  .shop-info,
+  .contact {
+    @include mq-mobile {
+      padding: 48px 0 40px;
+    }
+
+    @include mq-desktop {
+      padding: 48px 0;
+    }
+  }
+
+  .title {
+    line-height: 1.2;
+
+    @include mq-mobile {
+      font-size: 26px;
+    }
+
+    @include mq-desktop {
+      font-size: 32px;
+    }
+  }
+
+  .content {
+    margin-top: 64px;
+  }
+
+  .info {
+    @include mq-mobile {
+      font-size: 14px;
+    }
+
+    @include mq-desktop {
+      font-size: 18px;
+    }
+
+    li {
+      display: flex;
+      align-items: center;
+
+      &::before {
+        display: inline-block;
+        vertical-align: middle;
+        content: '';
+        background-repeat: no-repeat;
+        background-size: contain;
+
+        @include mq-mobile {
+          width: 20px;
+          height: 20px;
+          margin-right: 8px;
+        }
+
+        @include mq-desktop {
+          width: 24px;
+          height: 24px;
+          margin-right: 14px;
+        }
+      }
+
+      &.address {
+        &::before {
+          background-image: url('../../assets/icon_map.svg');
+        }
+      }
+
+      &.tel {
+        &::before {
+          background-image: url('../../assets/icon_phone.svg');
+        }
+      }
+
+      &.hours {
+        &::before {
+          background-image: url('../../assets/icon_time.svg');
+        }
+      }
+
+      &.holiday {
+        &::before {
+          background-image: url('../../assets/icon_calendar.svg');
+        }
+      }
+    }
+  }
+
+  .map {
+    width: 100%;
+    height: auto;
+
+    @include mq-mobile {
+      margin-top: 32px;
+    }
+
+    @include mq-desktop {
+      margin-top: 48px;
+    }
+
+    iframe {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4 / 3;
+    }
+  }
+
+  .description {
+    line-height: 1.8;
+
+    @include mq-mobile {
+      font-size: 14px;
+    }
+
+    @include mq-desktop {
+      font-size: 18px;
+    }
+  }
+
+  .link-button {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 100%;
+    font-weight: 500;
+    color: var(--color-text);
+    background-color: var(--color-bg);
+    border-radius: 999px;
+
+    @include mq-mobile {
+      height: 60px;
+      margin-top: 32px;
+      font-size: 16px;
+    }
+
+    @include mq-desktop {
+      height: 80px;
+      margin-top: 48px;
+      font-size: 21px;
+    }
+
+    &::before {
+      position: absolute;
+      top: 50%;
+      content: '';
+      background-image: url('../../assets/icon_arrow-right.svg');
+      background-repeat: no-repeat;
+      background-size: contain;
+      transform: translateY(-50%);
+
+      @include mq-mobile {
+        right: 20px;
+        width: 24px;
+        height: 24px;
+      }
+
+      @include mq-desktop {
+        right: 40px;
+        width: 32px;
+        height: 32px;
+      }
+    }
+
+    &.external {
+      &::before {
+        background-image: url('../../assets/icon_external.svg');
+      }
+    }
+  }
+</style>

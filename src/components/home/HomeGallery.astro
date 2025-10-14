@@ -1,7 +1,31 @@
 ---
-
+import { Image } from 'astro:assets';
+import Gallery1 from '@assets/gallery_1.jpg';
+import Gallery2 from '@assets/gallery_2.jpg';
+import Gallery3 from '@assets/gallery_3.jpg';
+import Gallery4 from '@assets/gallery_4.jpg';
+const galleries = [
+  {
+    src: Gallery1,
+    alt: 'Instagram Gallery 1',
+  },
+  {
+    src: Gallery2,
+    alt: 'Instagram Gallery 2',
+  },
+  {
+    src: Gallery3,
+    alt: 'Instagram Gallery 3',
+  },
+  {
+    src: Gallery4,
+    alt: 'Instagram Gallery 4',
+  },
+];
 ---
 
-<div></div>
+<div class="gallery">
+  {galleries.map((gallery) => <Image src={gallery.src} alt={gallery.alt} />)}
+</div>
 
 <style lang="scss"></style>
