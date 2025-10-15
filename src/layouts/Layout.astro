@@ -1,6 +1,7 @@
 ---
 import 'destyle.css';
 import '@styles/global.scss';
+import 'lenis/dist/lenis.css';
 import 'yakuhanjp/dist/css/yakuhanmp.css';
 import '@fontsource/zen-kaku-gothic-new/400.css';
 import '@fontsource/zen-kaku-gothic-new/500.css';
@@ -145,3 +146,22 @@ const pathname = Astro.url.pathname.replace(`${base}/`, '');
     }
   }
 </style>
+
+<script>
+  import Lenis from 'lenis';
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+  const lenis = new Lenis({
+    autoRaf: true,
+  });
+
+  lenis.on('scroll', ScrollTrigger.update);
+
+  gsap.ticker.add((time) => {
+    lenis.raf(time * 1000);
+  });
+
+  gsap.ticker.lagSmoothing(0);
+</script>
