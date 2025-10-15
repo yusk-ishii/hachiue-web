@@ -54,13 +54,12 @@ const services = [
 
 <style lang="scss">
   #service {
-    // margin: 0 auto;
-
     @include mq-mobile {
+      padding-top: 80px;
     }
 
     @include mq-desktop {
-      padding: 160px 0;
+      padding: 160px 40px 0;
     }
   }
 
@@ -81,10 +80,6 @@ const services = [
     @include mq('desktop') {
       gap: 44px;
       margin-top: 128px;
-    }
-
-    @include mq-desktop {
-      padding: 0 40px;
     }
   }
 

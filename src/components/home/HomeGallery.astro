@@ -7,25 +7,70 @@ import Gallery4 from '@assets/gallery_4.jpg';
 const galleries = [
   {
     src: Gallery1,
-    alt: 'Instagram Gallery 1',
   },
   {
     src: Gallery2,
-    alt: 'Instagram Gallery 2',
   },
   {
     src: Gallery3,
-    alt: 'Instagram Gallery 3',
   },
   {
     src: Gallery4,
-    alt: 'Instagram Gallery 4',
   },
 ];
+
+const looped = [...galleries, ...galleries];
 ---
 
 <div class="gallery">
-  {galleries.map((gallery) => <Image src={gallery.src} alt={gallery.alt} />)}
+  <div class="gallery-slider">
+    {
+      looped.map((item) => (
+        <div class="gallery-item">
+          <Image src={item.src} alt="" />
+        </div>
+      ))
+    }
+  </div>
 </div>
 
-<style lang="scss"></style>
+<style lang="scss">
+  .gallery {
+    overflow: hidden;
+
+    @include mq(1801) {
+      max-width: var(--content-width);
+      margin: 0 auto;
+    }
+  }
+
+  .gallery-slider {
+    display: flex;
+    width: max-content;
+    animation: carousel 60s linear infinite;
+
+    img {
+      box-sizing: content-box;
+
+      @include mq-mobile {
+        width: 200px;
+        padding: 0 4px;
+      }
+
+      @include mq-desktop {
+        width: 400px;
+        padding: 0 10px;
+      }
+    }
+  }
+
+  @keyframes carousel {
+    from {
+      transform: translateX(0%);
+    }
+
+    to {
+      transform: translateX(-50%);
+    }
+  }
+</style>

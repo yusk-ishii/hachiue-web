@@ -1,23 +1,31 @@
 ---
+import { Image } from 'astro:assets';
+import Logo from '@components/common/Lobo.astro';
+import IconClose from '@assets/icon_close.svg';
 import IconInstagram from '@components/common/IconInstagram.astro';
 import IconFacebook from '@components/common/IconFacebook.astro';
 const base = import.meta.env.BASE_URL;
 const links = [
-  { key: 'home', label: 'Home', href: `${base}/` },
+  { key: 'home', label: 'Home', href: `${base}/#` },
   { key: 'about', label: 'About', href: `${base}/#about` },
   { key: 'service', label: 'Service', href: `${base}/#service` },
-  { key: 'shop', label: 'Shop Info', href: `${base}/#shop` },
+  { key: 'shop', label: 'Shop Info', href: `${base}/#shop-info` },
   { key: 'contact', label: 'Contact', href: `${base}/contact` },
 ];
 ---
 
 <header>
-  <button class="nav-toggle">Menu</button>
-
-  <!-- クリックで閉じる半透明オーバーレイ -->
-  <!-- <div class="nav-overlay" hidden></div> -->
-
-  <nav class="nav">
+  <h1 class="logo">
+    <a href={`${base}/#`}>
+      <Logo color="currentcolor" />
+    </a>
+  </h1>
+  <button class="nav-open">Menu</button>
+  <div class="nav-overlay" hidden></div>
+  <nav id="global-nav" class="nav">
+    <button class="nav-close" hidden>
+      <Image src={IconClose} alt="close" />
+    </button>
     <ul class="nav-list">
       {
         links.map((l) => (
@@ -49,14 +57,12 @@ const links = [
     z-index: 1000;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: space-between;
     width: 100%;
     margin: 0 auto;
-    margin: auto;
 
     @include mq-mobile {
       height: 60px;
-      padding: 0 20px;
       padding: 0 calc(20 / 390 * 100vw);
     }
 
@@ -72,9 +78,16 @@ const links = [
     }
   }
 
-  .nav-toggle {
+  .logo {
+    width: 100px;
+
+    @include mq-desktop {
+      color: var(--color-text-light);
+    }
+  }
+
+  .nav-open {
     @include mq-mobile {
-      z-index: 1;
       display: grid;
       place-items: center;
       width: 74px;
@@ -84,11 +97,6 @@ const links = [
       color: var(--color-text-light);
       background-color: var(--color-main);
       border-radius: 999px;
-
-      .menu-open & {
-        color: var(--color-text);
-        background-color: var(--color-bg);
-      }
     }
 
     @include mq-desktop {
@@ -96,21 +104,60 @@ const links = [
     }
   }
 
+  .nav-close {
+    @include mq-mobile {
+      position: absolute;
+      top: 6px;
+      right: calc((20 / 390 * 100vw) - 13px);
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+
+      img {
+        width: 32px;
+        height: 32px;
+      }
+    }
+
+    @include mq-desktop {
+      display: none !important;
+    }
+  }
+
+  .nav-overlay {
+    @include mq-mobile {
+      position: fixed;
+      inset: 0;
+      display: none;
+      background: transparent;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    @include mq-desktop {
+      display: none !important;
+    }
+  }
+
   .nav {
+    display: flex;
     color: var(--color-text-light);
 
     @include mq-mobile {
       position: fixed;
       top: 0;
       right: 0;
-      display: none;
+      flex-direction: column;
+      gap: 48px;
       height: 100%;
       padding: 80px calc(20 / 390 * 100vw) 24px;
       background-color: var(--color-main);
-    }
-
-    @include mq-desktop {
-      display: flex;
+      opacity: 0;
+      transform: translateX(100%);
+      transition:
+        transform 0.4s var(--ease-out-cubic),
+        opacity 0.3s var(--ease-out-quint);
     }
   }
 
@@ -137,6 +184,14 @@ const links = [
         margin-left: 8px;
 
         &.contact {
+          margin-left: 24px;
+        }
+      }
+    }
+
+    @include mq(900) {
+      & + & {
+        &.contact {
           margin-left: 32px;
         }
       }
@@ -153,12 +208,16 @@ const links = [
       display: grid;
       place-items: center;
       height: 30px;
-      padding: 0 24px;
+      padding: 0 14px;
       font-size: 15px;
       line-height: 1;
       text-wrap: nowrap;
       border: 1px solid var(--color-border);
       border-radius: 999px;
+    }
+
+    @include mq(900) {
+      padding: 0 24px;
     }
   }
 
@@ -173,6 +232,10 @@ const links = [
 
     @include mq-desktop {
       gap: 16px;
+      margin-left: 24px;
+    }
+
+    @include mq(900) {
       margin-left: 40px;
     }
 
@@ -190,6 +253,82 @@ const links = [
   }
 </style>
 
+<style lang="scss" is:global>
+  // メニュー表示時
+  .menu-open {
+    header {
+      .nav-overlay,
+      .nav-overlay[hidden] {
+        @include mq-mobile {
+          display: block;
+        }
+      }
+
+      .nav-close,
+      .nav-close[hidden] {
+        @include mq-mobile {
+          display: grid;
+        }
+      }
+
+      .nav {
+        @include mq-mobile {
+          display: flex;
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+    }
+  }
+</style>
+
 <script>
-  console.log('Header script loaded');
+  const html = document.documentElement;
+  const navOpenBtn = document.querySelector('.nav-open') as HTMLButtonElement;
+  const navCloseBtn = document.querySelector('.nav-close') as HTMLButtonElement;
+  const overlay = document.querySelector('.nav-overlay') as HTMLElement;
+  const nav = document.querySelector('#global-nav') as HTMLElement;
+  const isDesktop = matchMedia('(min-width: 768px)');
+
+  function openMenu() {
+    html.classList.add('menu-open');
+    overlay.hidden = false;
+    navCloseBtn.hidden = false;
+    html.style.setProperty('touch-action', 'none');
+  }
+
+  function closeMenu() {
+    html.classList.remove('menu-open');
+    overlay.hidden = true;
+    navCloseBtn.hidden = true;
+    html.style.removeProperty('touch-action');
+  }
+
+  // ボタンクリック
+  navOpenBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    openMenu();
+  });
+
+  navCloseBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    closeMenu();
+  });
+
+  // オーバーレイで閉じる
+  overlay.addEventListener('click', closeMenu);
+
+  // メニュー内リンクをクリックしたら閉じる（#hash内遷移も想定）
+  nav.addEventListener('click', (e: Event) => {
+    const target = e.target as HTMLElement;
+    const a = target.closest('a');
+    if (!a) return;
+    // 同一ページ内#や通常遷移問わず閉じる
+    closeMenu();
+  });
+
+  // 画面幅がデスクトップに切り替わったら状態リセット
+  isDesktop.addEventListener('change', () => {
+    if (isDesktop.matches) closeMenu();
+  });
 </script>

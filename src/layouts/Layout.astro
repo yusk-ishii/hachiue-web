@@ -84,6 +84,9 @@ const pathname = Astro.url.pathname.replace(`${base}/`, '');
     --color-border: var(--gray);
     --color-border-input: var(--black);
     --content-width: 1440px;
+    --ease-in-out-quint: cubic-bezier(0.83, 0, 0.17, 1);
+    --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-out-cubic: cubic-bezier(0.33, 1, 0.68, 1);
   }
 
   html,
@@ -93,6 +96,7 @@ const pathname = Astro.url.pathname.replace(`${base}/`, '');
     overflow-wrap: break-word;
     background-color: var(--color-bg);
     -webkit-font-smoothing: antialiased;
+    scroll-behavior: smooth;
   }
 
   html {
@@ -116,15 +120,16 @@ const pathname = Astro.url.pathname.replace(`${base}/`, '');
       content: '';
       background-image: url('../assets/noise.png');
       background-size: 100px 100px;
-      opacity: 0.03;
+      opacity: 0.04;
     }
   }
 
   .wrapper {
+    position: relative;
+
     @include mq(1801) {
       max-width: var(--content-width);
       margin: 0 auto;
-      overflow: hidden;
 
       &::before {
         position: fixed;

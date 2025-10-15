@@ -1,11 +1,15 @@
 ---
 import { Image } from 'astro:assets';
+import shopImage from '@assets/shop.jpg';
 const base = import.meta.env.BASE_URL;
 ---
 
 <section id="shop">
+  <div class="shop-image">
+    <Image src={shopImage} alt="hachiue shop" />
+  </div>
   <div class="inner">
-    <div class="shop-info">
+    <div class="shop-info" id="shop-info">
       <h2 class="title">Shop Info</h2>
       <div class="content">
         <ul class="info">
@@ -17,7 +21,7 @@ const base = import.meta.env.BASE_URL;
       </div>
       <div class="map">
         <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6561.23783928732!2d135.1873482!3d34.6895662!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x600085f29a1e2617%3A0xff9ac764af6cfa5d!2z5YWD55S66aeF!5e0!3m2!1sja!2sjp!4v1760279387109!5m2!1sja!2sjp"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6501.293916887925!2d139.63403717770993!3d35.43877460000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60185ce68e7c4309%3A0x56dfd53aed040e69!2z55-z5bed55S6KOWFg-eUuuODu-S4reiPr-ihlynpp4U!5e0!3m2!1sja!2sjp!4v1760544355556!5m2!1sja!2sjp"
           width="600"
           height="450"
           style="border:0;"
@@ -40,10 +44,34 @@ const base = import.meta.env.BASE_URL;
 </section>
 
 <style lang="scss">
+  #shop {
+    @include mq-mobile {
+      padding-top: 80px;
+    }
+
+    @include mq-desktop {
+      padding-top: 160px;
+    }
+  }
+
+  .shop-image {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
   .inner {
+    position: relative;
+    z-index: 1;
     color: var(--color-text-light);
     background-color: var(--color-main);
-    border-radius: 8px;
+    border-radius: 8px 8px 0 0;
 
     @include mq-mobile {
       padding: 0 calc(20 / 390 * 100vw) 40px;
@@ -54,9 +82,31 @@ const base = import.meta.env.BASE_URL;
       padding: 0 64px 40px;
       margin-left: auto;
     }
+
+    &::before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      content: '';
+      background-image: url('../../assets/noise.png');
+      background-size: 100px 100px;
+      opacity: 0.04;
+    }
   }
 
-  .shop-info,
+  .shop-info {
+    @include mq-mobile {
+      padding: 80px 0 40px;
+    }
+
+    @include mq-desktop {
+      padding: 80px 0 48px;
+    }
+  }
+
   .contact {
     @include mq-mobile {
       padding: 48px 0 40px;
