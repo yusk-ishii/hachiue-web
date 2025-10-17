@@ -80,6 +80,13 @@ const links = [
 
   .logo {
     width: 100px;
+    transition: color 0.4s var(--ease-out-cubic);
+
+    @include mq-mobile {
+      &.is-white {
+        color: var(--color-text-light);
+      }
+    }
 
     @include mq-desktop {
       color: var(--color-text-light);

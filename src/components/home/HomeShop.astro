@@ -297,3 +297,26 @@ const base = import.meta.env.BASE_URL;
     }
   }
 </style>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+
+  function startScrollTrigger() {
+    const shop = document.getElementById('shop');
+    const logo = document.querySelector('header .logo') as HTMLElement;
+    ScrollTrigger.create({
+      trigger: shop,
+      start: '60px top',
+      end: 'bottom top',
+      // markers: true,
+      onEnter: () => logo.classList.add('is-white'),
+      onLeave: () => logo.classList.remove('is-white'),
+      onEnterBack: () => logo.classList.add('is-white'),
+      onLeaveBack: () => logo.classList.remove('is-white'),
+    });
+  }
+
+  window.addEventListener('load', startScrollTrigger);
+</script>
