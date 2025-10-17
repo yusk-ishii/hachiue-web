@@ -5,18 +5,19 @@ import IconClose from '@assets/icon_close.svg';
 import IconInstagram from '@components/common/IconInstagram.astro';
 import IconFacebook from '@components/common/IconFacebook.astro';
 const base = import.meta.env.BASE_URL;
+const isTop = Astro.url.pathname === base;
 const links = [
-  { key: 'home', label: 'Home', href: `${base}#` },
-  { key: 'about', label: 'About', href: `${base}#about` },
-  { key: 'service', label: 'Service', href: `${base}#service` },
-  { key: 'shop', label: 'Shop Info', href: `${base}#shop-info` },
-  { key: 'contact', label: 'Contact', href: `${base}/contact` },
+  { key: 'home', label: 'Home', href: isTop ? '#' : base },
+  { key: 'about', label: 'About', href: isTop ? '#about' : `${base}#about` },
+  { key: 'service', label: 'Service', href: isTop ? '#service' : `${base}#service` },
+  { key: 'shop', label: 'Shop Info', href: isTop ? '#shop-info' : `${base}#shop-info` },
+  { key: 'contact', label: 'Contact', href: `${base}contact/` },
 ];
 ---
 
 <header>
   <h1 class="logo">
-    <a href={`${base}#`}>
+    <a href={base}>
       <Logo color="currentcolor" />
     </a>
   </h1>
