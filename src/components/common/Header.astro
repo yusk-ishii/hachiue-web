@@ -210,11 +210,23 @@ const links = [
       place-items: center;
       height: 30px;
       padding: 0 14px;
+      overflow: hidden;
       font-size: 15px;
       line-height: 1;
+      color: transparent;
       text-wrap: nowrap;
+      text-shadow:
+        0 1.8em 0 var(--color-text-light),
+        0 0 0 var(--color-text-light);
       border: 1px solid var(--color-border);
       border-radius: 999px;
+
+      &:hover {
+        text-shadow:
+          0 0 0 var(--color-text-light),
+          0 -1.8em 0 var(--color-text-light);
+        transition: text-shadow 0.6s var(--ease-out-quint);
+      }
     }
 
     @include mq(900) {
@@ -249,6 +261,13 @@ const links = [
 
       @include mq-desktop {
         width: 30px;
+        transition: transform 0.4s var(--ease-out-quint);
+      }
+
+      @media (any-hover: hover) {
+        &:hover {
+          transform: scale(0.95);
+        }
       }
     }
   }

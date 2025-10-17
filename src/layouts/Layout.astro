@@ -63,6 +63,14 @@ const pathname = Astro.url.pathname.replace(`${base}/`, '');
     max-width: 100%;
     height: auto;
     vertical-align: middle;
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+
+  ::selection {
+    color: #fff;
+    background-color: #087d75;
   }
 </style>
 

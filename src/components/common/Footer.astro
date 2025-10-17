@@ -64,6 +64,13 @@ const base = import.meta.env.BASE_URL;
 
       @include mq-desktop {
         width: 40px;
+        transition: transform 0.4s var(--ease-out-quint);
+      }
+
+      @media (any-hover: hover) {
+        &:hover {
+          transform: scale(0.95);
+        }
       }
     }
   }

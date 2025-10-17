@@ -97,6 +97,7 @@ const base = import.meta.env.BASE_URL;
     &:focus {
       outline-width: 2px;
       outline-color: var(--color-main);
+      transition: outline 0.1s ease-out;
     }
 
     &:active,
@@ -131,6 +132,13 @@ const base = import.meta.env.BASE_URL;
       width: 280px;
       margin-top: 48px;
       font-size: 18px;
+      transition: background-color 0.4s var(--ease-out-quint);
+    }
+
+    @media (any-hover: hover) {
+      &:hover {
+        background-color: color-mix(in srgb, var(--color-sub) 80%, transparent);
+      }
     }
 
     &::before {

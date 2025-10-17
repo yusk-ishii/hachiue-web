@@ -107,7 +107,12 @@ const photos = [
       grid-area: picture5;
     }
 
-    @include mq-desktop {
+    @media (any-hover: hover) {
+      &::before,
+      &::after {
+        transition: opacity 0.4s var(--ease-out-quad);
+      }
+
       &::before {
         position: absolute;
         top: 0;
@@ -124,8 +129,10 @@ const photos = [
         position: absolute;
         top: 50%;
         left: 50%;
-        width: 15%;
-        height: 15%;
+        width: 10%;
+        min-width: 48px;
+        height: 10%;
+        min-height: 48px;
         pointer-events: none;
         content: '';
         background: url('../../assets/icon_instagram.svg') no-repeat center / contain;
@@ -137,7 +144,6 @@ const photos = [
         &::before,
         &::after {
           opacity: 1;
-          transition: opacity 0.3s ease-out;
         }
       }
     }
