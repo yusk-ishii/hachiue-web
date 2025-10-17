@@ -37,6 +37,7 @@ const looped = [...galleries, ...galleries];
 <style lang="scss">
   .gallery {
     overflow: hidden;
+    pointer-events: none;
 
     @include mq(1801) {
       max-width: var(--content-width);
@@ -47,7 +48,7 @@ const looped = [...galleries, ...galleries];
   .gallery-slider {
     display: flex;
     width: max-content;
-    animation: carousel 60s linear infinite;
+    animation: carousel 30s linear infinite;
 
     img {
       box-sizing: content-box;

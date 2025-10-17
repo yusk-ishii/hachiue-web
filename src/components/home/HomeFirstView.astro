@@ -5,15 +5,17 @@ import fvText from '@assets/fv_text.svg';
 ---
 
 <section id="home" class="fv">
-  <div class="inner">
+  <div class="fv-text-container">
     <div class="fv-text">
-      <Image src={fvText} alt="" />
-      <Image src={fvText} alt="" />
+      <div class="carousel">
+        <Image src={fvText} alt="" />
+        <Image src={fvText} alt="" />
+      </div>
     </div>
-    <figure class="fv-image">
-      <Image src={fvImage} alt="" />
-    </figure>
   </div>
+  <figure class="fv-image">
+    <Image src={fvImage} alt="" />
+  </figure>
 </section>
 
 <style lang="scss">
@@ -21,19 +23,36 @@ import fvText from '@assets/fv_text.svg';
     overflow: hidden;
 
     @include mq-mobile {
-      padding-top: 80px;
+      padding: 118px 0 140px;
+      margin-top: 80px;
     }
 
     @include mq-desktop {
-      padding-top: 100px;
+      padding: 180px 0 200px;
+      margin-top: 100px;
     }
   }
 
+  .fv-text-container {
+    position: absolute;
+    inset: 0 auto auto 50%;
+    top: 0;
+    width: 100%;
+    overflow: hidden;
+    pointer-events: none;
+    opacity: 0;
+    transform: translate(-50%, 0); /* 中央揃え（横位置） */
+    will-change: transform;
+  }
+
   .fv-text {
+    width: max-content;
+  }
+
+  .carousel {
     display: flex;
     align-items: center;
-    width: max-content;
-    animation: carousel 38s linear infinite;
+    animation: carousel 40s linear infinite;
     animation-delay: -34s;
 
     img {
@@ -55,13 +74,20 @@ import fvText from '@assets/fv_text.svg';
   }
 
   .fv-image {
+    position: relative;
+    z-index: 1;
     overflow: hidden;
     border-radius: 999px;
+    opacity: 0;
 
     img {
+      position: absolute;
+      inset: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
+      transform-origin: center top;
+      will-change: scale;
     }
 
     @include mq-mobile {
@@ -88,3 +114,102 @@ import fvText from '@assets/fv_text.svg';
     }
   }
 </style>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+
+  const fv = document.getElementById('home');
+  const fvTextContainer = document.querySelector('.fv-text-container');
+  const fvImage = document.querySelector('.fv-image');
+  const fvImageSrc = document.querySelector('.fv-image img') as HTMLImageElement;
+
+  function startAnimation() {
+    gsap
+      .timeline({ delay: 0.4 })
+      .fromTo(
+        fvImage,
+        { opacity: 0, y: 35 },
+        { duration: 1.2, ease: 'power1.inOut', opacity: 1, y: 0 },
+      )
+      .to(fvTextContainer, { duration: 1.2, ease: 'power1.inOut', opacity: 1 }, '-=0.8');
+  }
+
+  function setupFvSlideDown() {
+    if (!fv || !fvTextContainer) return;
+
+    gsap.set(fvTextContainer, {
+      y: 0,
+      force3D: true,
+      transformOrigin: '0 0',
+      willChange: 'transform',
+    });
+
+    const computeY = () => Math.max(0, fv.clientHeight - fvTextContainer.clientHeight);
+
+    gsap.to(fvTextContainer, {
+      y: computeY,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: fv,
+        start: 'top 80px',
+        end: 'bottom 40%',
+        scrub: 0.4,
+        // markers: true,
+        invalidateOnRefresh: true,
+        // 計測前に一旦 transform をクリア（進行度再適用のための下準備）
+        onRefreshInit() {
+          gsap.set(fvTextContainer, { clearProps: 'transform' });
+        },
+        // ★ リサイズ＆再計測後に、現在の progress に応じた y を再適用
+        onRefresh(self) {
+          const y = computeY();
+          // self.progress は 0〜1、fvを超えていれば 1
+          gsap.set(fvTextContainer, { y: y * self.progress });
+        },
+      },
+    });
+
+    const ro = new ResizeObserver(() => ScrollTrigger.refresh());
+    ro.observe(fv);
+    ro.observe(fvTextContainer);
+  }
+
+  function setupFvImageAnimation() {
+    if (!fv || !fvImageSrc) return;
+
+    gsap.fromTo(
+      fvImageSrc,
+      { scale: 1.05 },
+      {
+        scale: 1,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: fv,
+          start: 'top top',
+          end: 'bottom 50%',
+          scrub: 1,
+          // markers: true,
+          invalidateOnRefresh: true,
+        },
+      },
+    );
+  }
+
+  function setup() {
+    startAnimation();
+    setupFvSlideDown();
+    setupFvImageAnimation();
+  }
+
+  if (fvImageSrc.complete) {
+    setup();
+  } else {
+    fvImageSrc.addEventListener('load', setup);
+    fvImageSrc.addEventListener('error', () => {
+      console.warn('FV画像の読み込みに失敗しました');
+      setup(); // フォールバックで実行してもOK
+    });
+  }
+</script>
