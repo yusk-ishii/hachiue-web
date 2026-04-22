@@ -22,7 +22,6 @@ const siteDesc = '観葉植物専門店';
 const pageTitle = title ? `${title} | ${siteName}` : `${siteName} | ${siteDesc}`;
 const description =
   '観葉植物専門店Hachiueの公式サイトです。豊富な品揃えと専門知識で、あなたの生活空間を緑で彩ります。初心者から上級者まで、すべてのお客様に最適なサービスを提供します。';
-const pathname = Astro.url.pathname.replace(`${base}/`, '');
 ---
 
 <html lang="ja">
@@ -179,4 +178,14 @@ const pathname = Astro.url.pathname.replace(`${base}/`, '');
       lenis.scrollTo(window.location.hash);
     }, 0);
   }
+
+  document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+    anchor.addEventListener('click', (e) => {
+      const hash = (anchor as HTMLAnchorElement).getAttribute('href');
+      if (!hash) return;
+      e.preventDefault();
+      lenis.scrollTo(hash === '#' ? 0 : hash);
+    });
+  });
+
 </script>
