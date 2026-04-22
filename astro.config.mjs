@@ -4,8 +4,8 @@ import compress from 'astro-compress';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://tokyo-designplex.jp',
-  base: '/~2504ishii/practice/',
+  site: 'https://yusk-ishii.github.io',
+  base: '/hachiue-web',
 
   vite: {
     css: {

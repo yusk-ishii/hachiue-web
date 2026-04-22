@@ -173,4 +173,10 @@ const pathname = Astro.url.pathname.replace(`${base}/`, '');
   });
 
   gsap.ticker.lagSmoothing(0);
+
+  if (window.location.hash) {
+    setTimeout(() => {
+      lenis.scrollTo(window.location.hash);
+    }, 0);
+  }
 </script>
