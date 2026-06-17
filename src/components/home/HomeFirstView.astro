@@ -207,9 +207,6 @@ import fvText from '@assets/fv_text.svg';
     setup();
   } else {
     fvImageSrc.addEventListener('load', setup);
-    fvImageSrc.addEventListener('error', () => {
-      console.warn('FV画像の読み込みに失敗しました');
-      setup(); // フォールバックで実行してもOK
-    });
+    fvImageSrc.addEventListener('error', setup);
   }
 </script>
